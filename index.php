@@ -1,4 +1,20 @@
 <?php
+// Enable error reporting for debugging
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Set error handler
+function customErrorHandler($errno, $errstr, $errfile, $errline) {
+    echo "<div style='background: #fee; border: 1px solid #fcc; padding: 10px; margin: 10px; border-radius: 5px;'>";
+    echo "<h3>Error Detected:</h3>";
+    echo "<p><strong>Error:</strong> $errstr</p>";
+    echo "<p><strong>File:</strong> $errfile</p>";
+    echo "<p><strong>Line:</strong> $errline</p>";
+    echo "</div>";
+    return true;
+}
+set_error_handler("customErrorHandler");
+
 // Include database connection
 require_once 'config/database.php';
 

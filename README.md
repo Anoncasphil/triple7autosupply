@@ -66,13 +66,38 @@ A comprehensive web-based automotive parts management system designed for Triple
    -- Run the SQL files in the database/ directory
    ```
 
-3. **Configure Database Connection**
-   ```php
-   // Edit config/database.php
-   define('DB_HOST', 'localhost');
-   define('DB_NAME', 'triple7auto_supply');
-   define('DB_USER', 'your_username');
-   define('DB_PASS', 'your_password');
+3. **Run Setup Script**
+   ```bash
+   # Run the setup script to configure environment
+   php setup.php
+   ```
+
+4. **Configure Environment Variables**
+   ```bash
+   # Copy the environment template
+   cp config/env.template config/.env
+   
+   # Edit the .env file with your settings
+   nano config/.env
+   ```
+   
+   Example `.env` configuration:
+   ```env
+   # Database Configuration
+   DB_HOST=localhost
+   DB_NAME=triple7auto_supply
+   DB_USER=your_username
+   DB_PASS=your_password
+   DB_PORT=3307
+   DB_CHARSET=utf8mb4
+   
+   # Application Configuration
+   APP_NAME=Triple7 Auto Supply
+   APP_URL=http://your-domain.com
+   APP_ENV=production
+   
+   # Security
+   APP_KEY=your-secret-key-here-change-this-in-production
    ```
 
 4. **Set Up Web Server**
@@ -89,6 +114,7 @@ A comprehensive web-based automotive parts management system designed for Triple
 6. **Access the Application**
    - Public Website: `http://your-domain.com/`
    - Admin Panel: `http://your-domain.com/login/`
+   - Setup Script: `http://your-domain.com/setup.php` (run once)
 
 ## 📁 Project Structure
 
@@ -107,9 +133,10 @@ triple7auto/
 ├── assets/                  # Static assets
 │   └── images/              # Images and logos
 ├── config/                  # Configuration files
-│   ├── config.php           # General configuration
+│   ├── environment.php      # Environment configuration loader
+│   ├── env.template         # Environment template
 │   ├── database.php         # Database connection
-│   └── example_usage.php    # Usage examples
+│   └── .htaccess            # Security rules
 ├── database/                # Database files
 │   ├── products_table.sql   # Products table structure
 │   └── users_table.sql      # Users table structure
@@ -120,19 +147,29 @@ triple7auto/
 │   └── images/              # Product images
 ├── .htaccess                # Security rules
 ├── index.php                # Main website
+├── setup.php                # Setup script
 └── README.md                # This file
 ```
 
 ## 🔧 Configuration
 
-### Database Configuration
-Edit `config/database.php` to set your database credentials:
+### Environment Configuration
+The system uses environment variables for configuration. Copy `config/env.template` to `config/.env` and configure your settings:
 
-```php
-define('DB_HOST', 'localhost');
-define('DB_NAME', 'triple7auto_supply');
-define('DB_USER', 'your_username');
-define('DB_PASS', 'your_password');
+```env
+# Database Configuration
+DB_HOST=localhost
+DB_NAME=triple7auto_supply
+DB_USER=your_username
+DB_PASS=your_password
+DB_PORT=3307
+DB_CHARSET=utf8mb4
+
+# Application Configuration
+APP_NAME=Triple7 Auto Supply
+APP_URL=http://your-domain.com
+APP_ENV=production
+APP_KEY=your-secret-key-here-change-this-in-production
 ```
 
 ### Security Configuration

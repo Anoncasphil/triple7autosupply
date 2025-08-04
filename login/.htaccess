@@ -1,8 +1,8 @@
-# Allow access to login directory but restrict file types
+# Allow access to login directory
 Order Allow,Deny
 Allow from all
 
-# Allow only login-related PHP files
+# Allow only specific login-related PHP files
 <Files "index.php">
     Order Allow,Deny
     Allow from all
@@ -13,8 +13,8 @@ Allow from all
     Allow from all
 </Files>
 
-# Block access to all other file types
-<FilesMatch "\.(php|php3|php4|php5|phtml|pl|py|jsp|asp|sh|cgi|htaccess|htpasswd|ini|log|sql|txt|md|xml|json|yml|yaml|conf|bak|backup|tmp|temp)$">
+# Block access to all other PHP and sensitive files (but not the allowed ones above)
+<FilesMatch "\.(php3|php4|php5|phtml|pl|py|jsp|asp|sh|cgi|htaccess|htpasswd|ini|log|sql|txt|md|xml|json|yml|yaml|conf|bak|backup|tmp|temp)$">
     Order Deny,Allow
     Deny from all
 </FilesMatch>

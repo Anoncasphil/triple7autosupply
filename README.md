@@ -48,6 +48,23 @@ A comprehensive web-based automotive parts management system designed for Triple
 - Apache/Nginx web server
 - mod_rewrite enabled (for Apache)
 
+### Hostinger Setup
+If you're using Hostinger hosting, follow these specific steps:
+
+1. **Create Database in Hostinger**
+   - Go to Hostinger Control Panel → Databases → MySQL Databases
+   - Create a new database (e.g., `triple7auto_supply`)
+   - Create a database user with full privileges
+   - Note down: database name, username, password
+
+2. **Upload Files**
+   - Upload all files to your `public_html` directory
+   - Ensure the `.env` file will be created outside `public_html`
+
+3. **Configure Environment**
+   - Run the setup script: `php setup.php`
+   - Edit the `.env` file with your Hostinger database credentials
+
 ### Installation
 
 1. **Clone the Repository**
@@ -74,30 +91,40 @@ A comprehensive web-based automotive parts management system designed for Triple
 
 4. **Configure Environment Variables**
    ```bash
-   # Copy the environment template
-   cp config/env.template config/.env
-   
-   # Edit the .env file with your settings
-   nano config/.env
+   # The setup script will create .env file outside web directory
+   # Edit the .env file with your settings (two directories up)
+   nano ../../.env
    ```
    
-   Example `.env` configuration:
+   Example `.env` configuration for Hostinger (located outside web directory):
    ```env
-   # Database Configuration
+   # Database Configuration (Hostinger)
    DB_HOST=localhost
-   DB_NAME=triple7auto_supply
-   DB_USER=your_username
-   DB_PASS=your_password
-   DB_PORT=3307
+   DB_NAME=your_hostinger_database_name
+   DB_USER=your_hostinger_database_username
+   DB_PASS=your_hostinger_database_password
+   DB_PORT=3306
    DB_CHARSET=utf8mb4
    
-   # Application Configuration
+   # Application Configuration (Hostinger)
    APP_NAME=Triple7 Auto Supply
-   APP_URL=http://your-domain.com
+   APP_URL=https://yourdomain.com
    APP_ENV=production
    
    # Security
-   APP_KEY=your-secret-key-here-change-this-in-production
+   APP_KEY=generate-a-random-32-character-string-here
+   
+   # File Upload Configuration
+   UPLOAD_MAX_SIZE=10485760
+   ALLOWED_IMAGE_TYPES=jpg,jpeg,png,gif,webp
+   
+   # Session Configuration
+   SESSION_LIFETIME=3600
+   SESSION_SECURE=true
+   
+   # Error Reporting (Production)
+   DISPLAY_ERRORS=false
+   LOG_ERRORS=true
    ```
 
 4. **Set Up Web Server**
@@ -153,8 +180,24 @@ triple7auto/
 
 ## 🔧 Configuration
 
+### Hostinger-Specific Configuration
+For Hostinger hosting, use these specific settings:
+
+**Database Settings:**
+- `DB_HOST`: Always `localhost` for Hostinger
+- `DB_PORT`: Always `3306` for Hostinger
+- `DB_NAME`: Your Hostinger database name (e.g., `u123456789_triple7`)
+- `DB_USER`: Your Hostinger database username (e.g., `u123456789_triple7`)
+- `DB_PASS`: Your Hostinger database password
+
+**Application Settings:**
+- `APP_URL`: Use `https://yourdomain.com` (with https)
+- `APP_ENV`: Set to `production`
+- `SESSION_SECURE`: Set to `true` for HTTPS
+- `DISPLAY_ERRORS`: Set to `false` for production
+
 ### Environment Configuration
-The system uses environment variables for configuration. Copy `config/env.template` to `config/.env` and configure your settings:
+The system uses environment variables for configuration. The `.env` file is located outside the web directory for security. The setup script will create it automatically:
 
 ```env
 # Database Configuration
@@ -203,6 +246,12 @@ The system includes comprehensive security measures:
 - `GET /api/get_product_data.php?id={product_id}` - Get product information
 
 ## 🔒 Security Features
+
+### Environment Security
+- `.env` file located outside web directory
+- Sensitive configuration isolated from public access
+- Environment variables for all sensitive data
+- Template-based configuration setup
 
 ### File Upload Security
 - File type validation (images only)

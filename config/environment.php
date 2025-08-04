@@ -12,7 +12,8 @@ class Environment {
      */
     public static function load($envFile = null) {
         if ($envFile === null) {
-            $envFile = __DIR__ . '/.env';
+            // Look for .env file two directories up (outside public_html)
+            $envFile = __DIR__ . '/../../.env';
         }
         
         // Load from .env file if it exists

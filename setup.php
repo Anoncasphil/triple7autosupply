@@ -5,8 +5,8 @@
  */
 
 // Prevent direct access if already configured
-if (file_exists(__DIR__ . '/config/.env')) {
-    echo "Environment already configured. Remove config/.env to run setup again.\n";
+if (file_exists(__DIR__ . '/../../.env')) {
+    echo "Environment already configured. Remove .env file (two directories up) to run setup again.\n";
     exit(1);
 }
 
@@ -18,15 +18,26 @@ if (!file_exists(__DIR__ . '/config/env.template')) {
     exit(1);
 }
 
-// Copy template to .env
-if (copy(__DIR__ . '/config/env.template', __DIR__ . '/config/.env')) {
-    echo "✅ Environment template copied to config/.env\n";
+// Copy template to .env (two directories up)
+$envPath = __DIR__ . '/../../.env';
+$envDir = dirname($envPath);
+
+// Create directory if it doesn't exist
+if (!is_dir($envDir)) {
+    if (!mkdir($envDir, 0755, true)) {
+        echo "❌ Failed to create directory: $envDir\n";
+        exit(1);
+    }
+}
+
+if (copy(__DIR__ . '/config/env.template', $envPath)) {
+    echo "✅ Environment template copied to .env (two directories up)\n";
 } else {
-    echo "❌ Failed to create config/.env\n";
+    echo "❌ Failed to create .env file at: $envPath\n";
     exit(1);
 }
 
-echo "\n📝 Please edit config/.env with your database settings:\n";
+echo "\n📝 Please edit .env file (two directories up) with your database settings:\n";
 echo "   - DB_HOST: Your database host (usually 'localhost')\n";
 echo "   - DB_NAME: Your database name\n";
 echo "   - DB_USER: Your database username\n";
@@ -42,7 +53,7 @@ echo "   - Access admin panel: " . (isset($_SERVER['HTTP_HOST']) ? "http://{$_SE
 echo "⚠️  Important Security Notes:\n";
 echo "   - Change APP_KEY to a random string\n";
 echo "   - Set APP_ENV=production for live sites\n";
-echo "   - Ensure config/.env is not accessible via web\n\n";
+echo "   - .env file is now outside web directory for security\n\n";
 
-echo "🎉 Setup complete! Edit config/.env and start using the system.\n";
+echo "🎉 Setup complete! Edit .env file (two directories up) and start using the system.\n";
 ?> 

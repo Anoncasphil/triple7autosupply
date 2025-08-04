@@ -3,6 +3,7 @@ config/database.php
 .env
 *.env
 config/.env
+../../.env
 
 # Log files
 *.log

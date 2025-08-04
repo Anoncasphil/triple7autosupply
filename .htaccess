@@ -1,0 +1,101 @@
+# Security configuration for Triple 7 Auto Supply
+# Prevent access to sensitive files and directories
+
+# Block access to sensitive files
+<FilesMatch "\.(htaccess|htpasswd|ini|log|sh|inc|bak|sql|txt|md|env|config|conf)$">
+    Order Deny,Allow
+    Deny from all
+</FilesMatch>
+
+# Block access to backup and temporary files
+<FilesMatch "\.(bak|backup|tmp|temp|old|orig|save|swp|swo)$">
+    Order Deny,Allow
+    Deny from all
+</FilesMatch>
+
+# Block access to version control files
+<FilesMatch "\.(git|svn|hg|bzr|cvs)$">
+    Order Deny,Allow
+    Deny from all
+</FilesMatch>
+
+# Block access to IDE and editor files
+<FilesMatch "\.(vscode|idea|sublime|vim|emacs|nbproject|project)$">
+    Order Deny,Allow
+    Deny from all
+</FilesMatch>
+
+# Prevent directory listing
+Options -Indexes
+
+# Block access to specific sensitive files
+<Files ".env">
+    Order Deny,Allow
+    Deny from all
+</Files>
+
+<Files "composer.json">
+    Order Deny,Allow
+    Deny from all
+</Files>
+
+<Files "composer.lock">
+    Order Deny,Allow
+    Deny from all
+</Files>
+
+<Files "package.json">
+    Order Deny,Allow
+    Deny from all
+</Files>
+
+<Files "package-lock.json">
+    Order Deny,Allow
+    Deny from all
+</Files>
+
+<Files "yarn.lock">
+    Order Deny,Allow
+    Deny from all
+</Files>
+
+<Files "README.md">
+    Order Deny,Allow
+    Deny from all
+</Files>
+
+<Files "CHANGELOG.md">
+    Order Deny,Allow
+    Deny from all
+</Files>
+
+<Files "LICENSE">
+    Order Deny,Allow
+    Deny from all
+</Files>
+
+# Security headers
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options nosniff
+    Header always set X-Frame-Options DENY
+    Header always set X-XSS-Protection "1; mode=block"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# Prevent access to hidden files (except .htaccess)
+<FilesMatch "^\.">
+    Order Deny,Allow
+    Deny from all
+</FilesMatch>
+
+# Allow access to main index.php
+<Files "index.php">
+    Order Allow,Deny
+    Allow from all
+</Files>
+
+# Allow access to main index.php
+<Files "index.php">
+    Order Allow,Deny
+    Allow from all
+</Files> 

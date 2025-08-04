@@ -1,0 +1,56 @@
+# Deny all access to config directory
+Order Deny,Allow
+Deny from all
+
+# Block all file types except allow PHP to include them
+<FilesMatch ".*">
+    Order Deny,Allow
+    Deny from all
+</FilesMatch>
+
+# Prevent directory listing
+Options -Indexes
+
+# Block specific sensitive file types
+<Files "*.php">
+    Order Deny,Allow
+    Deny from all
+</Files>
+
+<Files "*.ini">
+    Order Deny,Allow
+    Deny from all
+</Files>
+
+<Files "*.conf">
+    Order Deny,Allow
+    Deny from all
+</Files>
+
+<Files "*.json">
+    Order Deny,Allow
+    Deny from all
+</Files>
+
+<Files "*.xml">
+    Order Deny,Allow
+    Deny from all
+</Files>
+
+<Files "*.yml">
+    Order Deny,Allow
+    Deny from all
+</Files>
+
+<Files "*.yaml">
+    Order Deny,Allow
+    Deny from all
+</Files>
+
+# Security headers
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options nosniff
+    Header always set X-Frame-Options DENY
+    Header always set X-XSS-Protection "1; mode=block"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule> 

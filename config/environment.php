@@ -16,6 +16,15 @@ class Environment {
             $envFile = __DIR__ . '/../../.env';
         }
         
+        // Debug: Check if .env file exists
+        if (file_exists($envFile)) {
+            error_log("Environment: Found .env file at: " . $envFile);
+        } else {
+            error_log("Environment: .env file NOT found at: " . $envFile);
+            error_log("Environment: Current directory: " . __DIR__);
+            error_log("Environment: Looking for: " . realpath($envFile));
+        }
+        
         // Load from .env file if it exists
         if (file_exists($envFile)) {
             $lines = file($envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
@@ -103,6 +112,18 @@ class Environment {
      */
     public static function all() {
         return self::$variables;
+    }
+    
+    /**
+     * Debug function to test environment loading
+     */
+    public static function debug() {
+        echo "<h3>Environment Debug Information:</h3>";
+        echo "<p><strong>Current Directory:</strong> " . __DIR__ . "</p>";
+        echo "<p><strong>Looking for .env at:</strong> " . __DIR__ . '/../../.env' . "</p>";
+        echo "<p><strong>.env file exists:</strong> " . (file_exists(__DIR__ . '/../../.env') ? 'YES' : 'NO') . "</p>";
+        echo "<p><strong>Loaded variables:</strong></p>";
+        echo "<pre>" . print_r(self::$variables, true) . "</pre>";
     }
 }
 
